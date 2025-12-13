@@ -2,7 +2,7 @@
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { CONFIG, getConePoint, getSpherePoint } from '../constants.ts';
+import { CONFIG, getConePoint, getSpherePoint } from '../constants';
 import { easing } from 'maath';
 
 // --- Custom Shader Material ---

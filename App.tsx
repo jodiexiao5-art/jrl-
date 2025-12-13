@@ -1,9 +1,34 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Experience } from './components/Experience.tsx';
-import { TreeState, PhotoData } from './types.ts';
-import { HandInput } from './components/HandInput.tsx';
+import { Experience } from './components/Experience';
+import { TreeState, PhotoData } from './types';
+import { HandInput } from './components/HandInput';
+
+// Simple Error Boundary to catch Three.js crashes
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div className="text-white text-center p-10">Something went wrong with the 3D view. Please refresh.</div>;
+    }
+    return this.props.children;
+  }
+}
+
+function Loader() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+      <div className="text-arix-gold text-xl font-serif animate-pulse">Loading Experience...</div>
+    </div>
+  );
+}
 
 function App() {
   const [treeState, setTreeState] = useState<TreeState>(TreeState.TREE_SHAPE);
@@ -45,17 +70,28 @@ function App() {
       
       {/* 3D Canvas Layer */}
       <div className="absolute inset-0 z-0">
-        <Canvas shadows dpr={[1, 2]} gl={{ antialias: false, toneMappingExposure: 1.2 }}>
-          <Experience 
-            treeState={treeState} 
-            photos={photos}
-            activePhotoId={activePhotoId}
-            onPhotoClick={handlePhotoClick}
-            onExitZoom={exitZoom}
-            rotation={handRotation}
-          />
-        </Canvas>
+        <ErrorBoundary>
+          <Canvas shadows dpr={[1, 2]} gl={{ antialias: false, toneMappingExposure: 1.2 }}>
+            <Suspense fallback={null}>
+              <Experience 
+                treeState={treeState} 
+                photos={photos}
+                activePhotoId={activePhotoId}
+                onPhotoClick={handlePhotoClick}
+                onExitZoom={exitZoom}
+                rotation={handRotation}
+              />
+            </Suspense>
+          </Canvas>
+        </ErrorBoundary>
       </div>
+
+      {/* Loading Indicator (Overlaid while Suspense is active) */}
+      <Suspense fallback={<Loader />}>
+         {/* Invisible fragment to trigger suspense if needed elsewhere, 
+             or just rely on the fallback within Canvas usually being enough for visual feedback 
+             if we structured it differently. For now, the Canvas Suspense handles the 3D wait. */}
+      </Suspense>
 
       {/* Hand Tracker (Visible PIP) */}
       <HandInput 

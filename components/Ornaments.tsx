@@ -2,8 +2,8 @@
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { CONFIG, getConePoint, getSpherePoint } from '../constants.ts';
-import { DualPosition } from '../types.ts';
+import { CONFIG, getConePoint, getSpherePoint } from '../constants';
+import { DualPosition } from '../types';
 import { easing } from 'maath';
 
 interface OrnamentProps {

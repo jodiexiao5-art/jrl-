@@ -2,8 +2,8 @@
 import React, { useMemo, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
-import { CONFIG, getConePoint, getSpherePoint } from '../constants.ts';
-import { PhotoData, TreeState } from '../types.ts';
+import { CONFIG, getConePoint, getSpherePoint } from '../constants';
+import { PhotoData, TreeState } from '../types';
 import { easing } from 'maath';
 
 interface Props {

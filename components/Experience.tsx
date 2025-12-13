@@ -2,12 +2,12 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, OrbitControls } from '@react-three/drei';
-import { TreeParticles } from './TreeParticles.tsx';
-import { Ornaments } from './Ornaments.tsx';
-import { PhotoCloud } from './PhotoCloud.tsx';
-import { Effects } from './Effects.tsx';
-import { CONFIG } from '../constants.ts';
-import { TreeState, ExperienceProps } from '../types.ts';
+import { TreeParticles } from './TreeParticles';
+import { Ornaments } from './Ornaments';
+import { PhotoCloud } from './PhotoCloud';
+import { Effects } from './Effects';
+import { CONFIG } from '../constants';
+import { TreeState, ExperienceProps } from '../types';
 import * as THREE from 'three';
 import { easing } from 'maath';
 
